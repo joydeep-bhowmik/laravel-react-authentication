@@ -41,14 +41,14 @@ trait HasEmailVerification
         if ($this->notify(new EmailVerificationNotification())) return true;
     }
 
-    public function verifyEmail(string $token)
+    public function verifyEmail(string $token, string $email = null)
     {
         if ($this->hasVerifiedEmail()) {
             return 'email-already-verified';
         }
 
 
-        $email = $this->email;
+        $email = $email ? $email : $this->email;
 
         $record = DB::table('email_verification_tokens')
             ->where('email', $email)
